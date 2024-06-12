@@ -54,7 +54,7 @@ class HH(Engine):
         return f"Вакансии добавлены в файл: {vacancy}_hh_ru.json"
 
     @staticmethod
-    def sorting(filename, type_of_sort, vacancies):
+    def sorting(filename, type_of_sort, vacancies, num_of_vacancies=None):
         vacancies_list = []
         vacancies_sort = sorted(vacancies, key=lambda vacancy: vacancy['salary_from'], reverse=type_of_sort)
         for vacancy in vacancies_sort:
@@ -69,10 +69,11 @@ class HH(Engine):
         return vacancies_list
 
 
-vacancy_to_search = "маляр"
-hh = HH(vacancy_to_search)
-my_vacaincies = hh.get_request()
-print(hh.make_json(vacancy_to_search, my_vacaincies))
-sorted_vacancies = hh.sorting(vacancy_to_search, True, my_vacaincies)
-for vacancy in sorted_vacancies:
-    print(vacancy)
+"""Пример работы"""
+# vacancy_to_search = "маляр"
+# hh = HH(vacancy_to_search)
+# my_vacaincies = hh.get_request()
+# print(hh.make_json(vacancy_to_search, my_vacaincies))
+# sorted_vacancies = hh.sorting(vacancy_to_search, True, my_vacaincies)
+# for vacancy in sorted_vacancies:
+#     print(vacancy)
