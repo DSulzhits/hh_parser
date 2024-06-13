@@ -20,7 +20,14 @@ class HH(Engine):
     def get_request(self):
         for num in range(1):
             url = 'https://api.hh.ru/vacancies'
-            params = {'text': {self.vacancy}, "areas": 113, 'per_page': 20, 'page': num, 'only_with_salary': True}
+            vacancies_per_page = 20
+            params = {
+                'text': {self.vacancy},
+                'areas': 113,
+                'per_page': vacancies_per_page,
+                'page': num,
+                'only with salary': True
+            }
             response = requests.get(url, params=params)
             info = response.json()
             if info is None:
@@ -30,20 +37,20 @@ class HH(Engine):
             elif info['found'] == 0:
                 return "Нет вакансий"
             else:
-                for vacancy in range(20):
+                for vacancy in range(vacancies_per_page):
                     self.vacancies_all.append(vacancy)
                     if info['items'][vacancy]['salary'] is not None \
                             and info['items'][vacancy]['salary']['currency'] == 'RUR':
                         vacancy_dict = {'employer': info['items'][vacancy]['employer']['name'],
                                         'name': info['items'][vacancy]['name'],
-                                        'url': info['items'][vacancy]['apply_alternate_url'],
+                                        'url': info['items'][vacancy]['alternate_url'],
                                         'requirement': info['items'][vacancy]['snippet']['requirement'],
                                         'salary_from': info['items'][vacancy]['salary']['from'],
                                         'salary_to': info['items'][vacancy]['salary']['to']}
                         if vacancy_dict['salary_from'] is None:
-                            vacancy_dict['salary_from'] = 0
+                            vacancy_dict['salary_from'] = "не указано"
                         elif vacancy_dict['salary_to'] is None:
-                            vacancy_dict['salary_to'] = vacancy_dict['salary_from']
+                            vacancy_dict['salary_to'] = "не указано"
                         self.vacancies_dicts.append(vacancy_dict)
         return self.vacancies_dicts
 
